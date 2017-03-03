@@ -8,12 +8,12 @@ def load_text(name):
 def clear_text(string):
 	#substituting bad symbols
 	string = string.lower()
-	string = re.sub(r"\.|\"|\(|\)|\?|\'|\d|\t|\<|\>|\*|\\"," ",string)
+	string = re.sub(r"\.|\"|\(|\)|\?|\'|\d|\t|\<|\>|\*|\\|\n"," ",string)
 	string = re.sub(r"[qwertyuiopasdfghjklzxcvbnm:!,-;=^]"," ",string)
-	string = re.sub(r"\n"," ",string)
 	string = re.sub(r" +"," ",string)
-	string.replace('ъ','ь')
-	string.replace('ё','е')
+	string = string.replace('ъ','ь')
+	string = string.replace('ё','е')
+	string = string.replace(' ','')
 	return string
 
 def number_of_letters(string):
@@ -31,7 +31,7 @@ def number_of_bigrams(string):
 	result = {}
 	#Вот тут можем поменять шаг,что бы 
 	#брать непересекающиеся биграммы
-	for i in range(len(string)):
+	for i in range(0,len(string)):
 		if string[i:i+2] in result:
 			result[string[i:i+2]]+=1
 		else:
@@ -56,7 +56,7 @@ def H2(string):
 	number_of_bigrams_result = number_of_bigrams(string)
 	chars = number_of_bigrams_result.keys()
 	for char in chars:
-		frequency = number_of_bigrams_result[char]/string_len
+		frequency = number_of_bigrams_result[char]/sum(number_of_bigrams_result.values())
 		result += frequency*log(frequency,2)
 	return (-result)/2
 
@@ -65,8 +65,17 @@ def H2(string):
 if __name__=='__main__':
 	text = load_text('Voyna_i_mir.txt')
 	text = clear_text(text)
+	# print('our alphabet: ',sorted(number_of_letters(text).keys()))
+	# letters = number_of_letters(text)
+	# for key in letters:
+	# 	letters[key]=round(letters[key]/len(text),3)
+	# print('letters frequency:',OrderedDict(sorted(letters.items())))
+	# bigrams = number_of_bigrams(text)
+	# for key in bigrams:
+	# 	bigrams[key] = round(bigrams[key]/sum(bigrams.values()),3)
+	# print('bigrams frequency:',OrderedDict(sorted(bigrams.items())))
 	# result1 = number_of_letters(text)
 	# result2 = number_of_bigrams(text)
-	print(H1(text))
-	print(H2(text))
+	print('H1 is:',H1(text))
+	print('H2 is:',H2(text))
 
