@@ -85,4 +85,5 @@ if __name__=='__main__':
 	# result2 = number_of_bigrams(text)
 	# print('H1 is:',H1(text))
 	# print('H2 is:',H2(text))
-	print(number_of_letters(text.keys()))
+	print(sorted(number_of_letters(text).keys()))
+
